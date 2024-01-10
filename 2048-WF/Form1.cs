@@ -28,6 +28,11 @@ namespace _2048_WF
 
         private void InitializeJeu()
         {
+            // Initialisation des coulours perso
+            Color formBackgroundColor = Color.FromArgb(255, 27, 11, 37);
+            Color lblScorePersoColor = Color.FromArgb(255, 27, 20, 50);
+            Color gameBackgroundColor = Color.FromArgb(255, 27, 20, 50);
+
             // Création des labels
             for (int row = 0; row < 4; row++)
             {
@@ -38,7 +43,7 @@ namespace _2048_WF
                     // le 20 + 100 * colonne détermine où placer le premier label dans le form en X
                     // le 20 + 100 * ligne détermine où placer le label en Y
                     // le 90, 90 est la taille du label
-                    lbl[row, col].Bounds = new Rectangle(20 + 100 * col, 20 + 100 * row, 90, 90);
+                    lbl[row, col].Bounds = new Rectangle(20 + 100 * col, 120 + 100 * row, 90, 90);
 
                     // met le texte au milieu du label
                     lbl[row, col].TextAlign = ContentAlignment.MiddleCenter;
@@ -80,7 +85,7 @@ namespace _2048_WF
                     break;
 
                 default:
-                    MessageBox.Show("Tu dois appuyer sur les flèches directionnelles");
+                    MessageBox.Show("Utilise les flèches directionnelles pour déplacer les cases.");
                     break;
             }
             DisplayBoard();
@@ -94,9 +99,11 @@ namespace _2048_WF
 
             if (Lose() == true)
             {
-                MessageBox.Show("Tu as perdu !\n\nScore : " + score.ToString());
+                MessageBox.Show("Tu as perdu !");
                 this.Close();
             }
+            Win();
+            lbl_ScorePerso.Text = score.ToString();
         }
 
         // Fonction qui verifie si 2 tableaux sont les mêmes
@@ -291,7 +298,7 @@ namespace _2048_WF
             }
             else
             {
-                value = 2048;  // 10% de chance d'avoir un '4'
+                value = 4;  // 10% de chance d'avoir un '4'
             }
 
             // Recherche d'une position vide pour ajouter un nouveau chiffre
@@ -314,18 +321,18 @@ namespace _2048_WF
             switch (value)
             {
                 case 0: return Color.White;
-                case 2: return Color.LightGray;
-                case 4: return Color.LightGreen;
-                case 8: return Color.MistyRose;
-                case 16: return Color.Yellow;
-                case 32: return Color.SandyBrown;
-                case 64: return Color.Orange;
-                case 128: return Color.Tomato;
-                case 256: return Color.Magenta;
-                case 512: return Color.DarkMagenta;
-                case 1024: return Color.DarkBlue;
-                case 2048: return Color.Blue;
-                default: return Color.Blue;
+                case 2: return Color.FromArgb(255, 177, 205, 68);
+                case 4: return Color.FromArgb(255, 120, 186, 63);
+                case 8: return Color.FromArgb(255, 58, 176, 116);
+                case 16: return Color.FromArgb(255, 45, 168, 225);
+                case 32: return Color.FromArgb(255, 52, 102, 175);
+                case 64: return Color.FromArgb(255, 81, 69, 151);
+                case 128: return Color.FromArgb(255, 125, 66, 148);
+                case 256: return Color.FromArgb(255, 194, 47, 138);
+                case 512: return Color.FromArgb(255, 220, 46, 79);
+                case 1024: return Color.FromArgb(255, 224, 74, 50);
+                case 2048: return Color.FromArgb(255, 232, 98, 37);
+                default: return Color.FromArgb(255, 232, 98, 37);
             }
         }
 
@@ -369,7 +376,7 @@ namespace _2048_WF
         }
 
         // Fonction qui vérifie si le joueur a gagné
-        static bool Win()
+        static void Win()
         {
             // Cherche dans le tableau si une case 2048 ou plus est présente
             foreach (var number in board)
@@ -377,10 +384,14 @@ namespace _2048_WF
                 if (number == 2048 && win == false)
                 {
                     win = true; // Si une case 2048 ou plus est présente retourne vrai
-                    MessageBox.Show("Bravo tu as gagné ! Tu peux continuer a jouer");
+                    MessageBox.Show("Bravo tu as gagné ! Tu peux continuer a jouer.");
                 }
             }
-            return false; // Si aucune case 2048 ou plus est présente retourne faux
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
